@@ -31,19 +31,6 @@ typedef struct blockHeader {
      * End Mark:
      *  The end of the available memory is indicated using a size_status of 1.
      * 
-     * Examples:
-     * 
-     * 1. Allocated block of size 24 bytes:
-     *    Allocated Block Header:
-     *      If the previous block is free      p-bit=0 size_status would be 25
-     *      If the previous block is allocated p-bit=1 size_status would be 27
-     * 
-     * 2. Free block of size 24 bytes:
-     *    Free Block Header:
-     *      If the previous block is free      p-bit=0 size_status would be 24
-     *      If the previous block is allocated p-bit=1 size_status would be 26
-     *    Free Block Footer:
-     *      size_status should be 24
      */
 } blockHeader;
 
