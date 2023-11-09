@@ -47,7 +47,7 @@ typedef struct blockHeader {
      */
 } blockHeader;
 
-/* Global variable - DO NOT CHANGE. It should always point to the first block,
+/* Global variable. It should always point to the first block,
  * i.e., the block at the lowest address.
  */
 blockHeader *heap_start = NULL;
@@ -56,10 +56,6 @@ blockHeader *heap_start = NULL;
  */
 int alloc_size;
 
-/*
- * Additional global variables may be added as needed below
- */
-
  
 /* 
  * Function for allocating 'size' bytes of heap memory.
@@ -67,34 +63,7 @@ int alloc_size;
  * Returns address of allocated block (payload) on success.
  * Returns NULL on failure.
  *
- * This function must:
- * - Check size - Return NULL if not positive or if larger than heap space.
- * - Determine block size rounding up to a multiple of 8
- *   and possibly adding padding as a result.
- *
- * - Use BEST-FIT PLACEMENT POLICY to chose a free block
- *
- * - If the BEST-FIT block that is found is exact size match
- *   - 1. Update all heap blocks as needed for any affected blocks
- *   - 2. Return the address of the allocated block payload
- *
- * - If the BEST-FIT block that is found is large enough to split 
- *   - 1. SPLIT the free block into two valid heap blocks:
- *         1. an allocated block
- *         2. a free block
- *         NOTE: both blocks must meet heap block requirements 
- *       - Update all heap block header(s) and footer(s) 
- *              as needed for any affected blocks.
- *   - 2. Return the address of the allocated block payload
- *
- * - If a BEST-FIT block found is NOT found, return NULL
- *   Return NULL unable to find and allocate block for desired size
- *
- * Note: payload address that is returned is NOT the address of the
- *       block header.  It is the address of the start of the 
- *       available memory for the requesterr.
- *
- * Tips: Be careful with pointer arithmetic and scale factors.
+ * - Uses BEST-FIT PLACEMENT POLICY to chose a free block
  */
 void* balloc(int size) {
     if (size <= 0 || size > alloc_size) {
@@ -166,12 +135,6 @@ void* balloc(int size) {
  * Argument ptr: address of the block to be freed up.
  * Returns 0 on success.
  * Returns -1 on failure.
- * This function should:
- * - Return -1 if ptr is NULL.
- * - Return -1 if ptr is not a multiple of 8.
- * - Return -1 if ptr is outside of the heap space.
- * - Return -1 if ptr block is already freed.
- * - Update header(s) and footer as needed.
  */                    
 int bfree(void *ptr) {
     if (ptr == NULL) {
@@ -211,7 +174,6 @@ int bfree(void *ptr) {
  * free blocks.
  *
  * This function is used for delayed coalescing.
- * Updated header size_status and footer size_status as needed.
  */
 int coalesce() {
     // frontier traverses through the heap
@@ -245,7 +207,6 @@ int coalesce() {
  
 /* 
  * Function used to initialize the memory allocator.
- * Intended to be called ONLY once by a program.
  * Argument sizeOfRegion: the size of the heap space to be allocated.
  * Returns 0 on success.
  * Returns -1 on failure.
